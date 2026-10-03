@@ -1,0 +1,18 @@
+#!/bin/sh
+# Record a selected area to ~/tmp; run again to stop (Mod+Shift+C).
+set -eu
+
+if pkill -INT -x wf-recorder; then
+    exit 0
+fi
+
+geometry=$(slurp) || exit 0
+file="$HOME/tmp/recording-$(date +%Y-%m-%d_%H:%M:%S).mp4"
+
+notify-send -a Recorder "Recording started" "Mod+Shift+C stops it"
+wf-recorder -g "$geometry" -f "$file" || true
+if [ -s "$file" ]; then
+    notify-send -a Recorder "Recording saved" "$file"
+else
+    notify-send -a Recorder -u critical "Recording failed"
+fi

@@ -1,0 +1,6 @@
+#!/bin/sh
+# Pick an entry from the clipboard history and copy it again (Mod+P).
+set -eu
+
+entry=$(cliphist list | rofi -dmenu -p ' 󰆏 ' -display-columns 2) || exit 0
+printf '%s\n' "$entry" | cliphist decode | wl-copy

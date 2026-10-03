@@ -1,0 +1,32 @@
+#!/bin/sh
+# Pending updates for waybar: official repos (checkupdates) + AUR (yay).
+# Prints nothing when both checks find no updates, which hides the module.
+# A failed check shows "?" instead of passing for zero.
+
+# checkupdates exits 2 when there are no updates.
+repo=$(checkupdates 2>/dev/null)
+case $? in
+    0) repo=$(printf '%s\n' "$repo" | grep -c .) ;;
+    2) repo=0 ;;
+    *) repo='?' ;;
+esac
+
+# yay -Qua exits 1 both when there are no updates and when the check fails;
+# only a failure prints anything.
+err=$(mktemp) || exit 1
+trap 'rm -f "$err"' EXIT
+aur=$(yay -Qua 2>"$err")
+case $? in
+    0) aur=$(printf '%s\n' "$aur" | grep -c .) ;;
+    1) [ -z "$aur" ] && [ ! -s "$err" ] && aur=0 || aur='?' ;;
+    *) aur='?' ;;
+esac
+
+if [ "$repo" = '?' ] || [ "$aur" = '?' ]; then
+    printf '{"text":"󰚰 ?","class":"error","tooltip":"Update check failed: %s official, %s AUR"}\n' "$repo" "$aur"
+    exit 0
+fi
+
+total=$((repo + aur))
+[ "$total" -gt 0 ] || exit 0
+printf '{"text":"󰚰 %s","tooltip":"%s official, %s AUR"}\n' "$total" "$repo" "$aur"

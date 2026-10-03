@@ -1,0 +1,3 @@
+#!/bin/sh
+# Hide notifications manually. Ending a screenshare leaves this mode enabled.
+exec makoctl mode -a privacy

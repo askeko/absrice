@@ -1,0 +1,19 @@
+#!/bin/bash
+# Pick a wallpaper from ~/pictures/wallpapers with rofi (Mod+B).
+set -euo pipefail
+
+dir="$HOME/pictures/wallpapers"
+
+selected_rel=$(
+    find "$dir" -type f \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' -o -name '*.webp' \) |
+        sort |
+        while IFS= read -r path; do
+            printf '%s\0icon\x1f%s\n' "${path#"$dir"/}" "$path"
+        done |
+        rofi -dmenu -p '󰋩  Wallpaper' -show-icons -i \
+            -theme-str 'listview { columns: 4; } element-icon { size: 100px; }'
+) || exit 0
+
+selected="$dir/$selected_rel"
+wallpaper-set "$selected"
+notify-send -a Wallpaper -i "$selected" "Wallpaper changed" "$selected_rel"

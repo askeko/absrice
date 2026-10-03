@@ -1,0 +1,28 @@
+#!/bin/sh
+# Battery level for waybar (the module only runs when a battery exists).
+
+for bat in /sys/class/power_supply/BAT*; do
+    break
+done
+capacity=$(cat "$bat/capacity")
+status=$(cat "$bat/status")
+
+if [ "$status" = "Charging" ]; then icon="󰂄"
+elif [ "$status" = "Full" ]; then icon="󰚥"
+elif [ "$capacity" -le 10 ]; then icon="󰁺"
+elif [ "$capacity" -le 20 ]; then icon="󰁻"
+elif [ "$capacity" -le 30 ]; then icon="󰁼"
+elif [ "$capacity" -le 40 ]; then icon="󰁽"
+elif [ "$capacity" -le 50 ]; then icon="󰁾"
+elif [ "$capacity" -le 60 ]; then icon="󰁿"
+elif [ "$capacity" -le 70 ]; then icon="󰂀"
+elif [ "$capacity" -le 80 ]; then icon="󰂁"
+elif [ "$capacity" -le 90 ]; then icon="󰂂"
+else icon="󱐋"
+fi
+
+class=""
+if [ "$status" = "Discharging" ] && [ "$capacity" -le 15 ]; then
+    class="critical"
+fi
+printf '{"text":"%s %s%%","class":"%s"}\n' "$icon" "$capacity" "$class"

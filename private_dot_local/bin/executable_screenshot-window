@@ -1,0 +1,8 @@
+#!/bin/sh
+# Screenshot the focused window and open it in satty (Mod+Shift+W).
+set -eu
+
+geometry=$(hyprctl -j activewindow | jq -r 'if .at then "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])" else empty end')
+[ -n "$geometry" ] || exit 1
+grim -g "$geometry" - |
+    satty --filename - --output-filename "$HOME/tmp/screenshot-%Y-%m-%d_%H:%M:%S.png"

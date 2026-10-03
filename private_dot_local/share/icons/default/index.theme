@@ -1,0 +1,3 @@
+# Default cursor for apps that don't read XCURSOR_THEME or GTK's settings.
+[Icon Theme]
+Inherits=breeze_cursors

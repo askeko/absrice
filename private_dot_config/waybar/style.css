@@ -1,0 +1,169 @@
+@import "theme.css";
+
+@keyframes blink {
+  to {
+    background-color: @red;
+  }
+}
+
+* {
+  font-family:
+    Symbols Nerd Font,
+    FiraCode Nerd Font Mono;
+  font-size: 15px;
+  min-height: 0;
+  margin-top: 0px;
+}
+
+/* Every module is a dark pill on a transparent bar. */
+#custom-temperature,
+#cpu,
+#memory,
+#disk,
+#custom-music,
+#custom-updates,
+#wireplumber,
+#custom-backlight,
+#network,
+#custom-vpn,
+#custom-battery,
+#clock,
+#tray {
+  background-color: @background;
+  padding: 0.5rem 0.8rem;
+  margin: 8px 0 0 0;
+}
+
+#waybar {
+  background: transparent;
+  color: @background;
+}
+
+/* Left: workspaces, then temperature-cpu-memory-disk as one pill */
+#workspaces {
+  background-color: @background;
+  border-radius: 1rem;
+  margin: 8px;
+  margin-left: 1rem;
+  margin-bottom: 0;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+#workspaces button {
+  color: @foreground;
+  border-radius: 1rem;
+  padding: 0.4rem;
+}
+
+#workspaces button.active {
+  color: @cyan;
+}
+
+#workspaces button:hover {
+  color: @magenta;
+}
+
+#workspaces button.urgent {
+  color: @red;
+  animation-name: blink;
+  animation-duration: 1s;
+  animation-timing-function: steps(200);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#custom-temperature {
+  color: @yellow;
+  border-radius: 1rem 0px 0px 1rem;
+  margin-left: 1rem;
+}
+
+#custom-temperature.critical {
+  animation-name: blink;
+  animation-duration: 1s;
+  animation-timing-function: steps(200);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#cpu {
+  color: @magenta;
+}
+
+#memory {
+  color: @cyan;
+}
+
+#disk {
+  color: @blue;
+  border-radius: 0px 1rem 1rem 0px;
+  margin-right: 1rem;
+}
+
+/* Centre */
+#custom-music {
+  color: @cyan;
+  border-radius: 1rem;
+}
+
+/* Right: updates on its own, then wireplumber...clock as one pill, then tray */
+#custom-updates {
+  color: @orange;
+  border-radius: 1rem;
+}
+
+#custom-updates.error {
+  color: @red;
+}
+
+#wireplumber {
+  color: @green;
+  border-radius: 1rem 0px 0px 1rem;
+  margin-left: 1rem;
+}
+
+#wireplumber.muted {
+  color: @background;
+  background-color: @red;
+}
+
+#custom-backlight {
+  color: @yellow;
+}
+
+#network {
+  color: @magenta;
+}
+
+#custom-vpn.connected {
+  color: @green;
+}
+
+#custom-vpn.disconnected {
+  color: @red;
+  opacity: 0.5;
+}
+
+#custom-battery {
+  color: @cyan;
+}
+
+#custom-battery.critical {
+  animation-name: blink;
+  animation-duration: 1s;
+  animation-timing-function: steps(200);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#clock {
+  color: @blue;
+  border-radius: 0px 1rem 1rem 0px;
+  margin-right: 1rem;
+}
+
+#tray {
+  margin-right: 1rem;
+  border-radius: 1rem;
+}

@@ -1,0 +1,10 @@
+# nvim.desktop is Terminal=true, which xdg-open (xdg-utils 1.2.1) ignores and
+# GLib can't start in kitty, so mimeapps.list opens text files through this.
+[Desktop Entry]
+Type=Application
+Name=Neovim (kitty)
+Exec=kitty -e nvim %F
+Icon=nvim
+Terminal=false
+NoDisplay=true
+MimeType=text/plain;

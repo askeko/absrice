@@ -1,0 +1,71 @@
+[Default Applications]
+# Browser
+text/html=firefox.desktop
+application/xhtml+xml=firefox.desktop
+application/x-extension-htm=firefox.desktop
+application/x-extension-html=firefox.desktop
+application/x-extension-shtml=firefox.desktop
+application/x-extension-xhtml=firefox.desktop
+application/x-extension-xht=firefox.desktop
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+x-scheme-handler/chrome=firefox.desktop
+
+# Documents
+application/pdf=org.pwmt.zathura.desktop
+
+# Images
+image/png=imv.desktop
+image/jpeg=imv.desktop
+image/gif=imv.desktop
+image/webp=imv.desktop
+image/bmp=imv.desktop
+image/tiff=imv.desktop
+image/svg+xml=imv.desktop
+
+# Video
+video/mp4=vlc.desktop
+video/x-matroska=vlc.desktop
+video/webm=vlc.desktop
+video/quicktime=vlc.desktop
+video/vnd.avi=vlc.desktop
+video/mpeg=vlc.desktop
+video/ogg=vlc.desktop
+video/x-flv=vlc.desktop
+video/3gpp=vlc.desktop
+
+# Audio
+audio/mpeg=vlc.desktop
+audio/flac=vlc.desktop
+audio/ogg=vlc.desktop
+audio/x-vorbis+ogg=vlc.desktop
+audio/x-opus+ogg=vlc.desktop
+audio/vnd.wave=vlc.desktop
+audio/mp4=vlc.desktop
+audio/aac=vlc.desktop
+
+# Text (nvim in kitty, ~/.local/share/applications/nvim-kitty.desktop)
+text/plain=nvim-kitty.desktop
+text/markdown=nvim-kitty.desktop
+text/x-python=nvim-kitty.desktop
+text/x-lua=nvim-kitty.desktop
+text/x-log=nvim-kitty.desktop
+text/x-readme=nvim-kitty.desktop
+text/x-csrc=nvim-kitty.desktop
+text/x-chdr=nvim-kitty.desktop
+text/x-c++src=nvim-kitty.desktop
+text/x-c++hdr=nvim-kitty.desktop
+text/rust=nvim-kitty.desktop
+text/x-go=nvim-kitty.desktop
+text/x-haskell=nvim-kitty.desktop
+text/x-tex=nvim-kitty.desktop
+text/x-makefile=nvim-kitty.desktop
+text/x-cmake=nvim-kitty.desktop
+text/javascript=nvim-kitty.desktop
+application/x-shellscript=nvim-kitty.desktop
+application/json=nvim-kitty.desktop
+application/toml=nvim-kitty.desktop
+application/yaml=nvim-kitty.desktop
+
+# Folders (yazi in kitty, ~/.local/share/applications/yazi-kitty.desktop)
+inode/directory=yazi-kitty.desktop

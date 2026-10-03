@@ -1,0 +1,84 @@
+# zsh config. Environment lives in ~/.config/shell/env.
+
+setopt autocd interactive_comments
+unsetopt PROMPT_SP
+
+# History in the cache directory. Commands starting with "rm " or a space
+# aren't saved.
+HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
+HISTSIZE=10000
+SAVEHIST=10000
+HISTORY_IGNORE='(rm *)'
+setopt append_history share_history hist_ignore_dups hist_ignore_space
+
+# Aliases
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
+
+# Completion: menu, case-insensitive, hidden files included. carapace adds
+# completions for tools without their own.
+autoload -Uz compinit
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zmodload zsh/complist
+compinit -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
+_comp_options+=(globdots)
+source <(carapace _carapace zsh)
+
+# vi mode
+bindkey -v
+export KEYTIMEOUT=1
+
+# Use vim keys in the completion menu.
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -v '^?' backward-delete-char
+bindkey '^w' backward-kill-word
+bindkey '^[;' up-line-or-search
+
+# Ctrl+E in normal mode edits the command line in $EDITOR.
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd '^e' edit-command-line
+
+# Block cursor in normal mode, beam in insert mode.
+zle-keymap-select() {
+    case $KEYMAP in
+    vicmd) echo -ne '\e[1 q' ;;
+    viins | main) echo -ne '\e[5 q' ;;
+    esac
+}
+zle -N zle-keymap-select
+zle-line-init() {
+    zle -K viins
+    echo -ne '\e[5 q'
+}
+zle -N zle-line-init
+echo -ne '\e[5 q'
+preexec() { echo -ne '\e[5 q'; }
+
+# fzf keys: Ctrl+T inserts a file, Alt+C cds, Ctrl+R searches history.
+source <(fzf --zsh)
+
+# y: yazi that leaves the shell in the directory it was quit in.
+y() {
+    local tmp cwd
+    tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+    command yazi "$@" --cwd-file="$tmp"
+    IFS= read -r -d '' cwd <"$tmp"
+    [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd" || builtin true
+    command rm -f -- "$tmp"
+}
+
+eval "$(zoxide init zsh)"
+eval "$(direnv hook zsh)"
+eval "$(starship init zsh)"
+
+# Plugins. Syntax highlighting must be sourced last.
+source /usr/share/zsh/plugins/zsh-auto-notify/auto-notify.plugin.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+bindkey '^[^M' autosuggest-execute
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/theme.zsh" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/theme.zsh"
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern regexp cursor line)
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

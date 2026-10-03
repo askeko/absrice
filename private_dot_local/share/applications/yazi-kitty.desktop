@@ -1,0 +1,10 @@
+# yazi.desktop is Terminal=true, which xdg-open (xdg-utils 1.2.1) ignores and
+# GLib can't start in kitty, so mimeapps.list opens folders through this.
+[Desktop Entry]
+Type=Application
+Name=Yazi (kitty)
+Exec=kitty -e yazi %f
+Icon=yazi
+Terminal=false
+NoDisplay=true
+MimeType=inode/directory;

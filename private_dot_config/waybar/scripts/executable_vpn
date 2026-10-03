@@ -1,0 +1,10 @@
+#!/bin/sh
+# WireGuard status for waybar: the active interface, or a dimmed icon.
+
+iface=$(ip -j -d link show | jq -r '[.[] | select(.linkinfo.info_kind == "wireguard")] | .[0].ifname // empty')
+
+if [ -n "$iface" ]; then
+    printf '{"text":"󰒃 %s","class":"connected"}\n' "$iface"
+else
+    echo '{"text":"󰦝","class":"disconnected"}'
+fi

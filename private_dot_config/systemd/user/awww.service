@@ -1,0 +1,13 @@
+[Unit]
+Description=awww wallpaper daemon
+PartOf=graphical-session.target
+After=graphical-session.target
+ConditionEnvironment=WAYLAND_DISPLAY
+
+[Service]
+ExecStart=/usr/bin/awww-daemon
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=graphical-session.target

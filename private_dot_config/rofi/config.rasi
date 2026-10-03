@@ -1,0 +1,102 @@
+configuration {
+    modes: "run,drun,window";
+    terminal: "kitty";
+    show-icons: true;
+    drun-display-format: "{icon} {name}";
+    display-drun: "󰍉  Apps";
+    display-run: "  Run";
+    display-window: "󰕰  Window";
+}
+
+/* Start from an empty theme, so rofi's built-in one doesn't leak through. */
+@theme "/dev/null"
+@import "theme.rasi"
+
+* {
+    background-color: transparent;
+    text-color: @fg;
+}
+
+window {
+    width: 40em;
+    padding: 0;
+    border: 2px;
+    border-radius: 12px;
+    border-color: @blue;
+    background-color: @bg;
+}
+
+mainbox {
+    border: 0;
+    padding: 0;
+}
+
+message {
+    border: 0;
+    padding: 4px 12px;
+}
+
+inputbar {
+    children: [ prompt, entry ];
+    spacing: 8px;
+    padding: 14px 16px;
+    border: 0 0 1px 0;
+    border-color: @blue;
+}
+
+prompt {
+    text-color: @blue;
+}
+
+entry {
+    placeholder-color: @fg-dim;
+}
+
+listview {
+    lines: 8;
+    fixed-height: false;
+    scrollbar: false;
+    spacing: 2px;
+    padding: 8px;
+    border: 0;
+}
+
+element {
+    border: 0;
+    border-radius: 8px;
+    padding: 8px 10px;
+    spacing: 8px;
+}
+
+element-icon {
+    size: 24px;
+}
+
+element-text,
+element-icon {
+    background-color: inherit;
+    text-color: inherit;
+}
+
+element normal.active {
+    text-color: @cyan;
+}
+
+element normal.urgent {
+    text-color: @red;
+}
+
+element selected.normal {
+    background-color: @bg-highlight;
+    text-color: @blue;
+}
+
+element selected.active {
+    background-color: @bg-highlight;
+    text-color: @cyan;
+}
+
+element selected.urgent {
+    background-color: @red;
+    text-color: @bg;
+}

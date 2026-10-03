@@ -1,0 +1,22 @@
+#!/bin/sh
+# Show the current wallpaper once the awww daemon is up (wallpaper-restore
+# unit). Falls back to the default wallpaper when nothing was picked yet, or
+# the picked file is gone.
+
+link="${XDG_STATE_HOME:-$HOME/.local/state}/theme/current-wallpaper"
+default="$HOME/pictures/wallpapers/default/archwave.png"
+
+if [ ! -e "$link" ]; then
+    mkdir -p "$(dirname "$link")"
+    ln -sfn "$default" "$link"
+fi
+
+for _ in $(seq 50); do
+    if awww query >/dev/null 2>&1; then
+        exec awww img "$link" --transition-type none
+    fi
+    sleep 0.2
+done
+
+echo "awww daemon never came up" >&2
+exit 1

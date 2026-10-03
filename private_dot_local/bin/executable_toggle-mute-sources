@@ -1,0 +1,9 @@
+#!/bin/sh
+# Toggle mute on every microphone/input at once (Mod+Z, XF86AudioMicMute).
+set -eu
+
+pw-dump |
+    jq -r '.[] | select(.type == "PipeWire:Interface:Node" and .info.props["media.class"] == "Audio/Source") | .id' |
+    while read -r id; do
+        wpctl set-mute "$id" toggle
+    done

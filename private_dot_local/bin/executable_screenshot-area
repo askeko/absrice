@@ -1,0 +1,7 @@
+#!/bin/sh
+# Screenshot a selected area and open it in satty (Mod+Shift+R).
+set -eu
+
+geometry=$(slurp) || exit 0
+grim -g "$geometry" - |
+    satty --filename - --output-filename "$HOME/tmp/screenshot-%Y-%m-%d_%H:%M:%S.png"

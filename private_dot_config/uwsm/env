@@ -1,0 +1,9 @@
+# Environment for the uwsm desktop session (Hyprland and everything it starts).
+
+# shellcheck source=/dev/null # Sourced from the user's home at runtime.
+. "$HOME/.config/shell/env"
+
+# Desktop-only
+export QT_QPA_PLATFORMTHEME="qt6ct"
+export XCURSOR_THEME="breeze_cursors"
+export XCURSOR_SIZE="36"

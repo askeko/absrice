@@ -1,0 +1,5 @@
+# Login shell profile (~/.zprofile links here). The desktop session gets the
+# same environment from ~/.config/uwsm/env; only tty/ssh logins read this.
+
+# shellcheck source=/dev/null # Sourced from the user's home at runtime.
+. "$HOME/.config/shell/env"

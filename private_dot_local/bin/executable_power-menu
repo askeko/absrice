@@ -1,0 +1,10 @@
+#!/bin/sh
+# Lock, log out, reboot or shut down (Mod+Shift+Q).
+
+case "$(printf '󰌾  Lock\n󰗽  Logout\n󰜉  Reboot\n󰐥  Shutdown\n' | rofi -dmenu -p 'Action: ')" in
+*Lock) pidof hyprlock || hyprlock ;;
+*Logout) uwsm stop ;;
+*Reboot) systemctl reboot -i ;;
+*Shutdown) systemctl poweroff -i ;;
+*) exit 1 ;;
+esac

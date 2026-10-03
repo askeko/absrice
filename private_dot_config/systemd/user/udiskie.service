@@ -1,0 +1,12 @@
+[Unit]
+Description=udiskie automounter
+PartOf=graphical-session.target
+# After waybar, so its tray is there for udiskie's icon.
+After=graphical-session.target waybar.service
+
+[Service]
+ExecStart=/usr/bin/udiskie
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target

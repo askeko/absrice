@@ -1,0 +1,16 @@
+#!/bin/sh
+# Set the wallpaper: wallpaper-set <image>
+# The symlink is the source of truth: wallpaper-restore and hyprlock read it.
+set -eu
+
+[ $# -eq 1 ] || {
+    echo "usage: wallpaper-set <image>" >&2
+    exit 1
+}
+
+path=$(realpath "$1")
+state="${XDG_STATE_HOME:-$HOME/.local/state}/theme"
+
+mkdir -p "$state"
+ln -sfn "$path" "$state/current-wallpaper"
+awww img "$path" --transition-type fade

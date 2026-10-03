@@ -1,0 +1,26 @@
+# yazi, from abslab. Rules are prepended, so yazi's own defaults (text in
+# $EDITOR, xdg-open as the fallback for everything else) still apply.
+# Placeholders: %s = selected files, %s1 = the first one (yazi quotes them).
+
+[mgr]
+show_hidden = true
+
+[opener]
+zsh-dir = [
+	{ run = "cd %s1 && exec zsh", block = true, desc = "Open directory in zsh", for = "unix" },
+]
+extract = [
+	{ run = "ouch decompress --yes %s", desc = "Extract here with ouch", for = "unix" },
+]
+
+[open]
+prepend_rules = [
+	{ mime = "inode/directory", use = "zsh-dir" },
+	{ mime = "application/{*zip,java-archive,vnd.rar,x-7z-compressed,x-bzip2,x-rar,x-tar,x-xz,x-zstd,xz,zstd}", use = "extract" },
+]
+
+[plugin]
+# Archive contents in the preview pane (ouch.yazi, pinned in package.toml).
+prepend_previewers = [
+	{ mime = "application/{*zip,java-archive,vnd.rar,x-7z-compressed,x-bzip2,x-rar,x-tar,x-xz,x-zstd,xz,zstd}", run = "ouch" },
+]

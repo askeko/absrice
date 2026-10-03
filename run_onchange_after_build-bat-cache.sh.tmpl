@@ -1,0 +1,12 @@
+#!/bin/sh
+# Rebuild bat's cache so it finds ~/.config/bat/themes ($BAT_THEME).
+# chezmoi re-runs this whenever the theme changes:
+# theme hash: {{ include "private_dot_config/bat/themes/tokyonight_night.tmTheme" | sha256sum }}
+set -eu
+
+if ! command -v bat >/dev/null 2>&1; then
+    echo "bat not installed; skipping bat cache" >&2
+    exit 0
+fi
+
+bat cache --build >/dev/null

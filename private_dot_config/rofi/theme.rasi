@@ -1,0 +1,10 @@
+/* tokyonight night colours for rofi (imported by config.rasi) */
+* {
+    bg:           #1a1b26;
+    bg-highlight: #292e42;
+    fg:           #c0caf5;
+    fg-dim:       #565f89;
+    blue:         #7aa2f7;
+    cyan:         #7dcfff;
+    red:          #f7768e;
+}

@@ -1,0 +1,7 @@
+# The output file (~/tmp/screenshot-…png) is passed by the screenshot-* scripts.
+[general]
+corner-roundness = 6
+initial-tool = "brush"
+copy-command = "wl-copy"
+actions-on-enter = ["save-to-clipboard"]
+actions-on-escape = ["exit"]

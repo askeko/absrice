@@ -1,0 +1,6 @@
+# imv can't include a theme file, so the tokyonight night colours
+# (folke/tokyonight.nvim palette) live here.
+[options]
+background = 1a1b26
+overlay_text_color = c0caf5
+overlay_background_color = 16161e

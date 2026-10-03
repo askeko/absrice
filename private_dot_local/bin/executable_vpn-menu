@@ -1,0 +1,44 @@
+#!/bin/bash
+# Connect to or disconnect from a WireGuard VPN in /etc/wireguard
+# (Mod+Shift+V). wg-quick runs through sudo without a password; aarbs installs
+# the sudoers rule.
+set -euo pipefail
+
+notify() {
+    notify-send -a VPN -i network-vpn "$1" "${2:-}"
+}
+
+if [ ! -r /etc/wireguard ] || [ ! -x /etc/wireguard ]; then
+    notify-send -a VPN -u critical "VPN error" "Can't list /etc/wireguard (it must be mode 755, with the .conf files 600)"
+    exit 1
+fi
+
+active=$(ip -j -d link show | jq -r '[.[] | select(.linkinfo.info_kind == "wireguard")] | .[0].ifname // empty')
+configs=$(find /etc/wireguard -maxdepth 1 -name '*.conf' -printf '%f\n' | sed 's/\.conf$//' | sort)
+
+if [ -n "$active" ]; then
+    menu=$(printf '󰦞  Disconnect (%s)\n%s' "$active" "$configs")
+else
+    menu="$configs"
+fi
+
+choice=$(printf '%s\n' "$menu" | rofi -dmenu -p 'VPN: ') || exit 1
+
+trap 'notify-send -a VPN -u critical "VPN error" "wg-quick failed - check journalctl"' ERR
+
+case "$choice" in
+"")
+    exit 1
+    ;;
+*Disconnect*)
+    sudo -n wg-quick down "$active"
+    notify "VPN disconnected" "$active"
+    ;;
+*)
+    if [ -n "$active" ]; then
+        sudo -n wg-quick down "$active"
+    fi
+    sudo -n wg-quick up "$choice"
+    notify "VPN connected" "$choice"
+    ;;
+esac

@@ -1,0 +1,6 @@
+[display]
+use_pager = true
+
+[updates]
+# fetch the pages on first use and refresh them every 30 days
+auto_update = true

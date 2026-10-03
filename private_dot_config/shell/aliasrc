@@ -1,0 +1,99 @@
+#!/bin/sh
+
+alias vim="nvim" vimdiff="nvim -d"
+
+# sudo not required for some system commands
+# shellcheck disable=SC2139 # Aliases are meant to expand when defined.
+for command in mount umount pacman su; do
+    alias $command="sudo $command"
+done
+unset command
+
+# Verbosity and settings that you pretty much just always are going to want
+alias \
+    cp="cp -iv" \
+    mv="mv -iv" \
+    rm="rm -vI" \
+    mkd="mkdir -pv"
+
+# Colorize commands when possible
+alias \
+    grep="grep --color=auto" \
+    diff="diff --color=auto" \
+    cat="bat"
+
+# Alias for trashcan-cli
+alias \
+    t="trash-put" \
+    te="trash-empty" \
+    tl="trash-list" \
+    tre="trash-restore" \
+    trm="trash-rm"
+
+# Alias replacing ls
+alias \
+    ls="eza -al --color=always --group-directories-first" \
+    la="eza -a --color=always --group-directories-first" \
+    ll="eza -l --color=always --group-directories-first" \
+    lt="eza -aT --color=always --group-directories-first"
+
+# Making long commands shorter
+# shellcheck disable=SC2139 # $EDITOR is meant to expand when defined.
+alias \
+    ka="killall" \
+    g="git" \
+    v="$EDITOR" \
+    p="pacman"
+
+# Git, from oh-my-zsh's git plugin. `g` is above.
+alias \
+    gst="git status" \
+    gss="git status --short" \
+    gsb="git status --short --branch" \
+    ga="git add" \
+    gaa="git add --all" \
+    gapa="git add --patch" \
+    gd="git diff" \
+    gds="git diff --staged" \
+    gc="git commit --verbose" \
+    gc!="git commit --verbose --amend" \
+    gca="git commit --verbose --all" \
+    gcmsg="git commit --message" \
+    gsh="git show"
+alias \
+    gb="git branch" \
+    gba="git branch --all" \
+    gbd="git branch --delete" \
+    gsw="git switch" \
+    gswc="git switch --create" \
+    gco="git checkout" \
+    gcb="git checkout -b" \
+    gf="git fetch" \
+    gl="git pull" \
+    gpr="git pull --rebase" \
+    gp="git push" \
+    gpf="git push --force-with-lease --force-if-includes" \
+    gcl="git clone --recurse-submodules"
+alias \
+    glo="git log --oneline --decorate" \
+    glog="git log --oneline --decorate --graph" \
+    gloga="git log --oneline --decorate --graph --all" \
+    grb="git rebase" \
+    grbi="git rebase --interactive" \
+    grbc="git rebase --continue" \
+    grba="git rebase --abort" \
+    gm="git merge" \
+    gcp="git cherry-pick"
+alias \
+    gsta="git stash push" \
+    gstp="git stash pop" \
+    gstl="git stash list" \
+    grs="git restore" \
+    grst="git restore --staged" \
+    grh="git reset" \
+    grhh="git reset --hard"
+
+# Pacman commands
+alias \
+    p-rem="pacman -Rcns" \
+    p-safe-rem="pacman -Runs"

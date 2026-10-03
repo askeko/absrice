@@ -1,0 +1,5 @@
+[mgr]
+prepend_keymap = [
+	{ on = "C", run = "plugin ouch", desc = "Compress with ouch" },
+	{ on = "b", run = "shell 'wallpaper-set %h'", desc = "Set as wallpaper" },
+]

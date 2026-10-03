@@ -1,0 +1,17 @@
+#!/bin/sh
+# Screen brightness icon for waybar (the module only runs with a backlight).
+
+percent=$(($(brightnessctl get) * 100 / $(brightnessctl max)))
+
+if [ "$percent" -le 10 ]; then icon="󱩎"
+elif [ "$percent" -le 20 ]; then icon="󱩏"
+elif [ "$percent" -le 30 ]; then icon="󱩐"
+elif [ "$percent" -le 40 ]; then icon="󱩑"
+elif [ "$percent" -le 50 ]; then icon="󱩒"
+elif [ "$percent" -le 60 ]; then icon="󱩓"
+elif [ "$percent" -le 70 ]; then icon="󱩔"
+elif [ "$percent" -le 80 ]; then icon="󱩕"
+elif [ "$percent" -le 90 ]; then icon="󱩖"
+else icon="󰛨"
+fi
+echo "$icon"

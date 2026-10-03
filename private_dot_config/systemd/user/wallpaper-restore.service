@@ -1,0 +1,12 @@
+[Unit]
+Description=Restore the wallpaper from the current-wallpaper symlink
+After=awww.service
+BindsTo=awww.service
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/wallpaper-restore
+RemainAfterExit=true
+
+[Install]
+WantedBy=awww.service

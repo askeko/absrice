@@ -1,0 +1,3 @@
+# Let mergiraf resolve merge conflicts structurally; it falls back to git's
+# line-based merge for file types it doesn't support.
+* merge=mergiraf

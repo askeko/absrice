@@ -1,0 +1,121 @@
+// Waybar, from abslab. Runs as waybar.service under graphical-session.target.
+// Colours: theme.css. Scripts: ~/.config/waybar/scripts/.
+{
+  "layer": "top",
+  "position": "top",
+
+  "modules-left": ["hyprland/workspaces", "custom/temperature", "cpu", "memory", "disk"],
+  "modules-center": ["custom/music"],
+  "modules-right": [
+    "custom/updates",
+    "wireplumber",
+    "custom/backlight",
+    "network",
+    "custom/vpn",
+    "custom/battery",
+    "clock",
+    "tray"
+  ],
+
+  // Shows the workspaces on this bar's monitor. 1-10 always exist (Hyprland
+  // persistent rules in hypr/monitors.lua): on lazarus 1-5 sit on the
+  // Samsung and 6-10 on the Acer.
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+      "active": "",
+      "urgent": "",
+      "default": ""
+    }
+  },
+
+  "custom/temperature": {
+    "exec": "~/.config/waybar/scripts/temperature",
+    "return-type": "json",
+    "interval": 5
+  },
+
+  "cpu": {
+    "format": "󰻠 {usage}%"
+  },
+
+  "memory": {
+    "format": "󰍛 {}%"
+  },
+
+  "disk": {
+    "interval": 30,
+    "format": "󱛟 {used}",
+    "unit": "GB",
+    "path": "/"
+  },
+
+  "custom/music": {
+    "exec": "playerctl --player=playerctld --follow metadata --format '{{ title }}' 2>/dev/null",
+    "format": " {}",
+    "escape": true,
+    "tooltip": false,
+    "max-length": 40,
+    "on-click": "playerctl play-pause"
+  },
+
+  // Pending updates (official + AUR); ? on failure, hidden on successful zero. Click runs
+  // yay in a terminal, then refreshes the count (signal 8).
+  "custom/updates": {
+    "exec": "~/.config/waybar/scripts/updates",
+    "return-type": "json",
+    "interval": 1800,
+    "signal": 8,
+    "on-click": "uwsm-app -- kitty -e sh -c 'yay; pkill -RTMIN+8 waybar'"
+  },
+
+  "wireplumber": {
+    "format": "{icon} {volume}%",
+    "format-muted": "󰝟",
+    "format-icons": ["", "", ""],
+    "max-volume": 100,
+    "scroll-step": 5,
+    "tooltip": false,
+    "on-click": "uwsm-app -- pwvucontrol",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  },
+
+  // Laptop only: hidden without a backlight.
+  "custom/backlight": {
+    "exec": "~/.config/waybar/scripts/backlight",
+    "exec-if": "ls /sys/class/backlight/ 2>/dev/null | grep -q .",
+    "interval": 2
+  },
+
+  "network": {
+    "format-wifi": "󰘊 {signalStrength}%",
+    "format-ethernet": "󰈀",
+    "format-disconnected": "󰞃 Disconnected",
+    "tooltip-format": "󰈀 {ifname} via {gwaddr}"
+  },
+
+  "custom/vpn": {
+    "exec": "~/.config/waybar/scripts/vpn",
+    "return-type": "json",
+    "interval": 5,
+    "on-click": "uwsm-app -- vpn-menu"
+  },
+
+  // Laptop only: hidden without a battery.
+  "custom/battery": {
+    "exec": "~/.config/waybar/scripts/battery",
+    "exec-if": "ls /sys/class/power_supply/ | grep -q '^BAT'",
+    "return-type": "json",
+    "interval": 30
+  },
+
+  "clock": {
+    "format": "󰥔 {:%H:%M | %d/%m}",
+    "tooltip": false
+  },
+
+  "tray": {
+    "icon-size": 18,
+    "spacing": 10
+  }
+}

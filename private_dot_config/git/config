@@ -1,0 +1,38 @@
+[user]
+	name = Aske Klitgaard Ottesen
+	email = askeklitgaard@gmail.com
+
+[init]
+	defaultBranch = main
+
+[push]
+	default = current
+	# The first push of a new branch sets its upstream.
+	autoSetupRemote = true
+
+[commit]
+	verbose = true
+
+[branch]
+	sort = -committerdate
+
+[tag]
+	sort = taggerdate
+
+[diff]
+	algorithm = histogram
+	# difftastic: structural diffs for `git diff`, `git show`, `git log -p`.
+	external = difft --background=dark
+
+[merge]
+	conflictstyle = zdiff3
+
+[merge "mergiraf"]
+	name = mergiraf
+	driver = mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P -l %L
+
+[rerere]
+	enabled = true
+
+[rebase]
+	instructionFormat = %d %s

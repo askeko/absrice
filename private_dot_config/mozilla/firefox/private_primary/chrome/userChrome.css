@@ -1,0 +1,5 @@
+/* Hide the tab bar */
+#TabsToolbar {
+  visibility: collapse !important;
+  margin-bottom: 21px !important;
+}

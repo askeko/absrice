@@ -1,0 +1,12 @@
+#!/bin/sh
+# Install the yazi plugins pinned in ~/.config/yazi/package.toml.
+# chezmoi re-runs this whenever package.toml changes:
+# package.toml hash: {{ include "private_dot_config/yazi/package.toml" | sha256sum }}
+set -eu
+
+if ! command -v ya >/dev/null 2>&1; then
+    echo "ya (yazi) not installed; skipping yazi plugins" >&2
+    exit 0
+fi
+
+ya pkg install
