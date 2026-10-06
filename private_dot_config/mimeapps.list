@@ -69,3 +69,6 @@ application/yaml=nvim-kitty.desktop
 
 # Folders (yazi in kitty, ~/.local/share/applications/yazi-kitty.desktop)
 inode/directory=yazi-kitty.desktop
+
+# Claude Code sign-in links (added by its installer)
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop

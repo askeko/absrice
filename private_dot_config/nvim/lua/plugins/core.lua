@@ -6,9 +6,12 @@ return {
   },
 
   -- harpoon2 extra (imported in config/lazy.lua), with the old add/menu keys;
-  -- <leader>1-9 jump to files 1-9 as in the extra
+  -- <leader>1-9 jump to files 1-9 as in the extra. The branch is repeated here:
+  -- on the first start LazyVim isn't cloned yet, so the extra isn't loaded and
+  -- this spec alone would install harpoon v1 from master
   {
     "ThePrimeagen/harpoon",
+    branch = "harpoon2",
     keys = function(_, keys)
       keys = vim.tbl_filter(function(key)
         return key[1] ~= "<leader>H" and key[1] ~= "<leader>h"
