@@ -3,3 +3,7 @@
   visibility: collapse !important;
   margin-bottom: 21px !important;
 }
+/* Hide the sidebar header (new sidebar, sidebar.revamp = true) */
+#sidebar-panel-header {
+  display: none !important;
+}
