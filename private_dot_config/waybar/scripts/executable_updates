@@ -1,29 +1,48 @@
 #!/bin/sh
 # Pending updates for waybar: official repos (checkupdates) + AUR (yay).
 # Prints nothing when both checks find no updates, which hides the module.
-# A failed check shows "?" instead of passing for zero.
+# A failed check shows "?" instead of passing for zero, logs the error to
+# waybar's journal (journalctl --user -u waybar) and retries in 5 minutes.
+
+# At login the network is usually not up yet.
+nm-online -q -t 60
+
+# One check at a time: on lazarus each bar runs this script, and parallel
+# checkupdates runs share one database.
+exec 9>"${XDG_RUNTIME_DIR:-/tmp}/waybar-updates.lock"
+flock 9
+
+err=$(mktemp) || exit 1
+trap 'rm -f "$err"' EXIT
 
 # checkupdates exits 2 when there are no updates.
-repo=$(checkupdates 2>/dev/null)
+repo=$(checkupdates 2>"$err")
 case $? in
-    0) repo=$(printf '%s\n' "$repo" | grep -c .) ;;
-    2) repo=0 ;;
-    *) repo='?' ;;
+0) repo=$(printf '%s\n' "$repo" | grep -c .) ;;
+2) repo=0 ;;
+*)
+    repo='?'
+    sed 's/^/updates: checkupdates: /' "$err" >&2
+    ;;
 esac
 
 # yay -Qua exits 1 both when there are no updates and when the check fails;
 # only a failure prints anything.
-err=$(mktemp) || exit 1
-trap 'rm -f "$err"' EXIT
 aur=$(yay -Qua 2>"$err")
 case $? in
-    0) aur=$(printf '%s\n' "$aur" | grep -c .) ;;
-    1) [ -z "$aur" ] && [ ! -s "$err" ] && aur=0 || aur='?' ;;
-    *) aur='?' ;;
+0) aur=$(printf '%s\n' "$aur" | grep -c .) ;;
+1) [ -z "$aur" ] && [ ! -s "$err" ] && aur=0 || aur='?' ;;
+*) aur='?' ;;
 esac
+[ "$aur" = '?' ] && sed 's/^/updates: yay: /' "$err" >&2
 
 if [ "$repo" = '?' ] || [ "$aur" = '?' ]; then
     printf '{"text":"󰚰 ?","class":"error","tooltip":"Update check failed: %s official, %s AUR"}\n' "$repo" "$aur"
+    # Retry sooner than the module's 30-minute interval.
+    (
+        sleep 300
+        pkill -RTMIN+8 waybar
+    ) >/dev/null 2>&1 &
     exit 0
 fi
 
