@@ -61,22 +61,6 @@ hl.monitor({
 	scale = 1,
 })
 
--- Meeting-room TV and projector show a copy of the laptop screen.
-hl.monitor({
-	output = "desc:Samsung Electric Company SAMSUNG 0x01000E00",
-	mode = "preferred",
-	position = "auto",
-	scale = 1,
-	mirror = "eDP-1",
-})
-hl.monitor({
-	output = "desc:Lightware Visual Engineering",
-	mode = "preferred",
-	position = "auto",
-	scale = 1,
-	mirror = "eDP-1",
-})
-
 -- Anything else (projectors, borrowed screens) extends the desktop. To mirror
 -- the laptop screen instead, add `mirror = "eDP-1"` here.
 hl.monitor({
@@ -84,4 +68,5 @@ hl.monitor({
 	mode = "preferred",
 	position = "auto",
 	scale = 1,
+	mirror = "eDP-1",
 })
