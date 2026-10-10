@@ -60,13 +60,13 @@
   },
 
   // Pending updates (official + AUR); ? on failure, hidden on successful zero. Click runs
-  // yay in a terminal, then refreshes the count (signal 8).
+  // paru in a terminal, then refreshes the count (signal 8).
   "custom/updates": {
     "exec": "~/.config/waybar/scripts/updates",
     "return-type": "json",
     "interval": 1800,
     "signal": 8,
-    "on-click": "uwsm-app -- kitty -e sh -c 'yay; pkill -RTMIN+8 waybar'"
+    "on-click": "uwsm-app -- kitty -e sh -c 'paru; pkill -RTMIN+8 waybar'"
   },
 
   "wireplumber": {

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Pending updates for waybar: official repos (checkupdates) + AUR (yay).
+# Pending updates for waybar: official repos (checkupdates) + AUR (paru).
 # Prints nothing when both checks find no updates, which hides the module.
 # A failed check shows "?" instead of passing for zero, logs the error to
 # waybar's journal (journalctl --user -u waybar) and retries in 5 minutes.
@@ -26,15 +26,15 @@ case $? in
     ;;
 esac
 
-# yay -Qua exits 1 both when there are no updates and when the check fails;
+# paru -Qua exits 1 both when there are no updates and when the check fails;
 # only a failure prints anything.
-aur=$(yay -Qua 2>"$err")
+aur=$(paru -Qua 2>"$err")
 case $? in
 0) aur=$(printf '%s\n' "$aur" | grep -c .) ;;
 1) [ -z "$aur" ] && [ ! -s "$err" ] && aur=0 || aur='?' ;;
 *) aur='?' ;;
 esac
-[ "$aur" = '?' ] && sed 's/^/updates: yay: /' "$err" >&2
+[ "$aur" = '?' ] && sed 's/^/updates: paru: /' "$err" >&2
 
 if [ "$repo" = '?' ] || [ "$aur" = '?' ]; then
     printf '{"text":"󰚰 ?","class":"error","tooltip":"Update check failed: %s official, %s AUR"}\n' "$repo" "$aur"
