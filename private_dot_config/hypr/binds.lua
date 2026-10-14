@@ -25,32 +25,38 @@ local function cmd(c)
     return hl.dsp.exec_cmd(c)
 end
 
+-- Noctalia (bar, launcher, notifications, lock screen) is controlled by messages.
+local ipc = "noctalia msg "
+
 ---------------------
 ---- APPS & MENUS ---
 ---------------------
 
 bind(mod .. " + Return",        app("kitty"),                                   "Terminal")
 bind(mod .. " + W",             app("firefox"),                                 "Browser")
-bind(mod .. " + D",             app("rofi -show drun -run-command 'uwsm-app -- {cmd}'"), "App launcher")
+bind(mod .. " + D",             cmd(ipc .. "panel-toggle launcher"),            "App launcher")
 bind(mod .. " + SHIFT + D",     app("rofi -show run -run-command 'uwsm-app -- {cmd}'"),  "Run command")
 bind(mod .. " + M",             app("rofi-rbw"),                                "Passwords")
-bind(mod .. " + P",             app("rofi-cliphist"),                           "Clipboard history")
-bind(mod .. " + U",             app("rofimoji"),                                "Emoji picker")
+bind(mod .. " + P",             cmd(ipc .. "panel-toggle clipboard"),           "Clipboard history")
+bind(mod .. " + U",             cmd(ipc .. "panel-toggle launcher /emo"),       "Emoji picker")
 bind(mod .. " + SHIFT + U",     app("rofimoji --files all"),                    "Character picker")
-bind(mod .. " + B",             app("wallpaper-picker"),                        "Wallpaper picker")
+bind(mod .. " + B",             cmd(ipc .. "panel-toggle wallpaper"),           "Wallpaper picker")
 bind(mod .. " + SHIFT + V",     app("vpn-menu"),                                "VPN menu")
-bind(mod .. " + SHIFT + Q",     app("power-menu"),                              "Power menu")
-bind(mod .. " + ALT + L",       cmd("pidof hyprlock || hyprlock"),              "Lock screen")
+bind(mod .. " + SHIFT + Q",     cmd(ipc .. "panel-toggle session"),             "Power menu")
+bind(mod .. " + ALT + L",       cmd(ipc .. "session lock"),                     "Lock screen")
 bind(mod .. " + SHIFT + slash", app("keybinds"),                                "Show keybinds")
+bind(mod .. " + S",             cmd(ipc .. "panel-toggle control-center"),      "Show Noctalia control center")
+bind(mod .. " + apostrophe",    cmd(ipc .. "settings-toggle"),                  "Show settings menu")
+bind(       "ALT + Tab",        cmd(ipc .. "window-switcher hold"),             "Window switcher")
 
 -------------------------------------
 ---- SCREENSHOTS, RECORDING, COLOUR --
 -------------------------------------
 
-bind("Print",               app("screenshot-clip"),   "Screenshot area to clipboard")
-bind(mod .. " + SHIFT + R", app("screenshot-area"),   "Screenshot area, edit")
-bind(mod .. " + SHIFT + O", app("screenshot-output"), "Screenshot monitor, edit")
-bind(mod .. " + SHIFT + W", app("screenshot-window"), "Screenshot window, edit")
+bind("Print",               cmd(ipc .. "screenshot-region"),     "Screenshot area to clipboard")
+bind(mod .. " + SHIFT + R", cmd(ipc .. "screenshot-annotate"),   "Screenshot area, edit")
+bind(mod .. " + SHIFT + O", cmd(ipc .. "screenshot-fullscreen"), "Screenshot monitor")
+bind(mod .. " + SHIFT + W", app("screenshot-window"),            "Screenshot window, edit")
 bind(mod .. " + SHIFT + C", app("screen-record"),     "Start/stop screen recording")
 bind(mod .. " + SHIFT + P", app("hyprpicker -a"),     "Pick colour (hex to clipboard)")
 
@@ -60,9 +66,9 @@ bind(mod .. " + SHIFT + P", app("hyprpicker -a"),     "Pick colour (hex to clipb
 
 local hw = { locked = true, repeating = true } -- also work on the lock screen
 
-local vol_up   = "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
-local vol_down = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-local vol_mute = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+local vol_up   = ipc .. "volume-up"
+local vol_down = ipc .. "volume-down"
+local vol_mute = ipc .. "volume-mute"
 
 bind(mod .. " + SHIFT + equal", cmd(vol_up),   "Volume up",   { repeating = true })
 bind(mod .. " + SHIFT + plus",  cmd(vol_up),   "Volume up",   { repeating = true })
@@ -75,13 +81,13 @@ bind("XF86AudioMute",           cmd(vol_mute), "Mute output", { locked = true })
 bind(mod .. " + Z",      cmd("toggle-mute-sources"), "Mute/unmute all microphones")
 bind("XF86AudioMicMute", cmd("toggle-mute-sources"), "Mute/unmute all microphones", { locked = true })
 
-bind("XF86AudioPlay",  cmd("playerctl play-pause"), "Play/pause",     { locked = true })
-bind("XF86AudioPause", cmd("playerctl play-pause"), "Play/pause",     { locked = true })
-bind("XF86AudioNext",  cmd("playerctl next"),       "Next track",     { locked = true })
-bind("XF86AudioPrev",  cmd("playerctl previous"),   "Previous track", { locked = true })
+bind("XF86AudioPlay",  cmd(ipc .. "media toggle"),   "Play/pause",     { locked = true })
+bind("XF86AudioPause", cmd(ipc .. "media toggle"),   "Play/pause",     { locked = true })
+bind("XF86AudioNext",  cmd(ipc .. "media next"),     "Next track",     { locked = true })
+bind("XF86AudioPrev",  cmd(ipc .. "media previous"), "Previous track", { locked = true })
 
-bind("XF86MonBrightnessUp",   cmd("brightnessctl set +10%"), "Brightness up",   hw)
-bind("XF86MonBrightnessDown", cmd("brightnessctl set 10%-"), "Brightness down", hw)
+bind("XF86MonBrightnessUp",   cmd(ipc .. "brightness-up"),   "Brightness up",   hw)
+bind("XF86MonBrightnessDown", cmd(ipc .. "brightness-down"), "Brightness down", hw)
 
 -----------------
 ---- WINDOWS ----

@@ -16,7 +16,7 @@ hl.monitor({
 	transform = 1, -- 90°
 })
 
--- Workspaces 1-10 always exist (persistent), so waybar shows them all.
+-- Workspaces 1-10 (not persistent: the bar shows the ones in use).
 -- lazarus pins 1-5 to the Samsung and 6-10 to the Acer. Only there: on other
 -- hosts, rules naming lazarus' monitors would make every monitor skip 1-10
 -- when picking its first workspace (the laptop would start on 11).
@@ -27,7 +27,8 @@ if f then
 end
 
 for i = 1, 10 do
-	local rule = { workspace = tostring(i), persistent = false }
+	-- default_name is what Noctalia shows (label_source = "name"): the Nerd Font Arch glyph nf-md-arch (U+F08C7).
+	local rule = { workspace = tostring(i), persistent = true, default_name = "󰣇" }
 	if host == "lazarus" then
 		rule.monitor = i <= 5 and "desc:Samsung Electric Company Odyssey G85SB" or "desc:Acer Technologies XB271HU"
 		rule.default = i == 1 or i == 6

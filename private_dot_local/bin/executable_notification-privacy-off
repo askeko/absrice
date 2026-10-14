@@ -1,3 +1,0 @@
-#!/bin/sh
-# End manual privacy. Notifications remain hidden while a screenshare is active.
-exec makoctl mode -r privacy

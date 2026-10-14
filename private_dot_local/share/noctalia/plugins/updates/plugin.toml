@@ -1,0 +1,9 @@
+id         = "absentia/updates"
+name       = "Updates"
+version    = "1.0.0"
+plugin_api = 3
+author     = "absentia"
+
+[[widget]]
+id    = "count"
+entry = "widget.luau"

@@ -6,8 +6,9 @@ hl.config({
 
 		-- 8px between windows and to the screen edges, plus 16px extra at the
 		-- sides so the neighbouring column peeks in (niri struts).
-		gaps_in = 4,
-		gaps_out = { top = 8, right = 24, bottom = 8, left = 24 },
+		gaps_in = 5,
+		-- No gap at the top: the Noctalia bar already sits there.
+		gaps_out = { top = 5, right = 15, bottom = 10, left = 15 },
 		border_size = 4,
 
 		col = {
@@ -26,16 +27,21 @@ hl.config({
 	},
 
 	decoration = {
-		rounding = 8,
+		rounding = 10,
+		rounding_power = 2,
 
 		shadow = {
 			enabled = true,
-			range = 20,
-			color = "rgba(00000070)",
+			range = 4,
+			render_power = 3,
+			color = "0xee1a1a1a",
 		},
 
 		blur = {
-			enabled = false,
+			enabled = true,
+			size = 3,
+			passes = 2,
+			vibrancy = 0.1696,
 		},
 	},
 
@@ -43,6 +49,8 @@ hl.config({
 		disable_hyprland_logo = true,
 		force_default_wallpaper = 0,
 		middle_click_paste = false,
+		-- If the lock screen (Noctalia) crashes while locked, a new one can take over.
+		allow_session_lock_restore = true,
 	},
 
 	animations = {

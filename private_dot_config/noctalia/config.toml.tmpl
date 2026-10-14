@@ -1,0 +1,168 @@
+[theme]
+mode = "dark"
+shell_mode = "follow"
+source = "builtin"
+builtin = "Tokyo-Night"
+
+[shell]
+polkit_agent = true
+# Apps started from the launcher get their own systemd scope, like uwsm-app.
+launch_apps_as_systemd_services = true
+
+[location]
+auto_locate = true
+
+# Panels attached to the bar take the bar's background, which is transparent.
+# Floating panels draw their own background; the mode sets how translucent
+# (solid | soft | glass), blurred by the layer rule in hypr/rules.lua.
+[shell.panel]
+transparency_mode = "glass"
+control_center_placement = "floating"
+control_center_position = "auto"
+wallpaper_placement = "floating"
+wallpaper_position = "auto"
+session_placement = "floating"
+session_position = "auto"
+
+[shell.screenshot]
+save_to_file = false
+copy_to_clipboard = true
+
+[lockscreen]
+lock_before_suspend = true
+fingerprint = false
+
+# Lock after 10 minutes idle, screens off a minute later (as hypridle did).
+[idle.behavior.lock]
+timeout = 600
+action = "lock"
+
+[idle.behavior.screen_off]
+timeout = 660
+action = "screen_off"
+
+[notification]
+position = "top_right"
+follow_focused_output = true
+
+[wallpaper]
+directory = "{{ .chezmoi.homeDir }}/pictures/wallpapers"
+
+[wallpaper.default]
+path = "{{ .chezmoi.homeDir }}/pictures/wallpapers/default/archwave.png"
+
+[bar]
+order = ["top"]
+
+# ------------------------------------------------------------------------------
+# Top bar: floats 10px off the top and 20px off the sides, rounded all round.
+
+[bar.top]
+position           = "top"
+thickness          = 36
+reserve_space      = true
+layer              = "top"
+
+background_opacity = 1.0
+compositor_blur    = false
+border             = "outline"
+border_width       = 1
+shadow             = true
+radius             = 12
+concave_edge_corners = false
+margin_edge        = 10
+margin_ends        = 20
+padding            = 12
+widget_spacing     = 10
+
+scale              = 1.0
+font_weight        = 500
+font_family        = "FiraCode Nerd Font"
+color              = "on_surface"
+icon_color         = "on_surface"
+hover_highlight    = true
+capsule            = false
+
+start  = ["audio_vis", "workspaces", "temp", "cpu", "ram", "disk"]
+center = ["clock"]
+end    = ["media", "volume", "brightness", "bluetooth", "privacy", "network", "vpn", "battery", "updates", "tray", "notifications", "session"]
+
+# ==============================================================================
+# Widgets
+
+[widget.audio_vis]
+type           = "audio_visualizer"
+width          = 140
+bands          = 28
+mirrored       = true
+centered       = true
+show_when_idle = true
+color_1        = "primary"
+color_2        = "primary"
+
+[widget.workspaces]
+style          = "focus_hint"
+show_labels    = true
+show_icons     = false
+label_source   = "id"
+focused_color  = "primary"
+occupied_color = "secondary"
+empty_color    = "on_surface"
+
+[widget.clock]
+format         = "%b %d  %H:%M"
+
+[widget.media]
+max_length       = 430
+rotate_album_art = true
+title_scroll     = "none"
+
+[widget.temp]
+type  = "sysmon"
+stat  = "cpu_temp"
+
+[widget.cpu]
+type          = "sysmon"
+stat          = "cpu_usage"
+visualization = "graph"
+show_value    = false
+
+[widget.ram]
+type          = "sysmon"
+stat          = "ram_used"
+visualization = "graph"
+show_value    = false
+
+[widget.disk]
+type          = "sysmon"
+stat          = "disk_used_pct"
+path          = "/"
+visualization = "graph"
+show_value    = false
+
+[widget.volume]
+show_label = true
+[widget.volume.actions]
+right = "exec pwvucontrol"
+
+[widget.privacy]
+type          = "privacy"
+hide_inactive = false
+icon_spacing  = 6
+active_color  = "primary"
+inactive_color = "outline"
+
+# Update count: plugin in ~/.local/share/noctalia/plugins/updates. Enable once with
+# `noctalia msg plugins enable absentia/updates`.
+[widget.updates]
+type = "absentia/updates:count"
+[widget.updates.actions]
+left  = "exec kitty -e paru"
+right = "none"                   # frees the right click for the plugin's re-check
+
+[widget.vpn]
+type    = "custom_button"
+glyph   = "shield-lock"
+tooltip = "VPN menu"
+[widget.vpn.actions]
+left = "exec vpn-menu"
